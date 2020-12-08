@@ -1,0 +1,5 @@
+[gcloud]
+35.228.181.17
+
+[gcloud:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

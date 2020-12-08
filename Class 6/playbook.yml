@@ -1,0 +1,52 @@
+---
+- hosts: vm1
+
+  tasks:
+    - name: Download Elasticsearch
+      get_url:
+        url: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.10.0-linux-x86_64.tar.gz
+        dest: ~/elasticsearch-7.10.0-linux-x86_64.tar.gz
+
+    - name: Unpack Elasticsearch
+      unarchive:
+          src: ~/elasticsearch-7.10.0-linux-x86_64.tar.gz
+          dest: ~/
+          remote_src: yes
+
+    - name: Download Kibana
+      get_url:
+        url: https://artifacts.elastic.co/downloads/kibana/kibana-7.10.0-linux-x86_64.tar.gz
+        dest: ~/kibana-7.10.0-linux-x86_64.tar.gz
+
+    - name: Unpack Kibana
+      unarchive:
+          src: ~/kibana-7.10.0-linux-x86_64.tar.gz
+          dest: ~/
+          remote_src: yes
+
+    - name: Remove packed files
+      file:
+        path: '{{ item }}'
+        state: absent
+      with_items:
+        - ~/elasticsearch-7.10.0-linux-x86_64.tar.gz
+        - ~/kibana-7.10.0-linux-x86_64.tar.gz
+
+- hosts: vm2
+
+  tasks:
+    - name: Download Metricbeat
+      get_url:
+        url: https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.10.0-linux-x86_64.tar.gz
+        dest: ~/metricbeat-7.10.0-linux-x86_64.tar.gz
+
+    - name: Unpack Metricbeat
+      unarchive:
+          src: ~/metricbeat-7.10.0-linux-x86_64.tar.gz
+          dest: ~/
+          remote_src: yes
+
+    - name: Remove packed files
+      file:
+        path: ~/metricbeat-7.10.0-linux-x86_64.tar.gz
+        state: absent

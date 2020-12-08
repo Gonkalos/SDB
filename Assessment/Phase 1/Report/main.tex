@@ -1,0 +1,108 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[english, portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{wrapfig}
+\usepackage{import}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\title{Universidade do Minho\\
+       Mestrado Integrado em Engenharia Informática\\
+       \textit{System Deployment and Benchmarking}\\
+       Relatório da Fase 1 do Projeto Prático\\
+       Grupo 7}
+
+\date{novembro 2020}
+
+\begin{document}
+
+\maketitle
+
+% Isto está a contar como Figura 1 :(
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[scale=0.05]{fotos/Bruno.jpg}
+        \caption*{Bruno Carvalho\\A83851}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[scale=1]{fotos/Lázaro.png}
+        \caption*{Lázaro Pinheiro\\A86788}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[scale=0.45]{fotos/Luís.jpg}
+        \caption*{Luís Cunha\\A84244}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[scale=0.32]{fotos/Almeida.jpg}
+        \caption*{Gonçalo Almeida\\A84610}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[scale=0.40]{fotos/GFerreira.jpg}
+        \caption*{Gonçalo Ferreira\\A84073}
+    \end{subfigure}
+\end{figure}
+
+\clearpage
+
+\tableofcontents
+\listoffigures
+\newpage
+
+\section{Introdução}
+
+\import{}{introducao.tex}
+\newpage
+
+\section{Arquitetura e Componentes da Aplicação}
+
+\import{}{arquitetura.tex}
+
+\section{Distribuição}
+
+\import{}{distribuicao.tex}
+
+\section{Pontos de Configuração}
+
+\import{}{configuracao.tex}
+
+\section{Operações Críticas}
+
+\import{}{desempenho.tex}
+
+\section{Conclusão}
+
+\import{}{conclusao.tex}
+\clearpage
+
+\begin{thebibliography}{}
+
+\bibitem{architecture_communication}
+\small{https://docs.mattermost.com/overview/architecture.html\#communication-protocols}
+
+\bibitem{architecture_high_availability}
+\small{https://docs.mattermost.com/overview/architecture.html\#high-availability-and-scalability}
+
+\bibitem{deployment_server}
+\small{https://docs.mattermost.com/deployment/deployment.html\#mattermost-server}
+
+\bibitem{deployment_data_stores}
+\small{https://docs.mattermost.com/deployment/deployment.html\#data-stores}
+
+\bibitem{deployment_file_store}
+\small{https://docs.mattermost.com/deployment/deployment.html\#file-store}
+
+\bibitem{deployment_communication}
+\small{https://docs.mattermost.com/deployment/deployment.html\#communication-protocols}
+
+\bibitem{configuration_settings}
+\small{https://docs.mattermost.com/administration/config-settings.html}
+
+\end{thebibliography}
+
+\end{document}

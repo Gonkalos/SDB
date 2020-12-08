@@ -1,0 +1,26 @@
+\subsection{Comunicação cliente-servidor}
+
+Através da Figura \ref{fig:architecture_with_protocol} podemos observar que a comunicação cliente-servidor e vice-versa é balanceada através de um \textit{proxy}. Ora, visto que toda a comunicação passa por este componente, torna-se um ponto único de falha, ou seja, uma falha compromete o funcionamento sistema em geral.\par
+Os serviços de autenticação que o servidor fornece (\textit{authentication client} e \textit{provider}) devem também estar sempre disponíveis, uma vez que tratam da autenticação dos utilizadores. Sem estes serviços ativos, não lhes é possível acederem ao resto do sistema.
+
+De modo a viabilizar as características anteriormente mencionadas, é proposto um modelo de \textit{Cluster} para o \textit{Proxy}.
+Seguindo o modelo Servidor Proxy (consultar \ref{servidor-proxy}) é possível usar diversas tecnologias como \textit{NGINX proxy} ou \textit{Apache 2}.
+
+Esta solução oferece diversos mecanismos como subdivisão de tarefas, e para solucionar o problema de falha usa-se um método \textit{Active-Passive}.
+Neste o agente \textit{Passive} garante se houver alguma falha com o servidor \textit{Active} encarregar-se de substituir a sua função sem que haja algum tipo de quebra no serviço.
+
+A autenticação aproveita este modelo de comunicação para balancear a sua carga por um \textit{Cluster} de Mattermost servers, como é possível observar na Figura \ref{fig:architecture_high_availability}, assim proporcionando uma alta disponibilidade do serviço de autenticação e não só.
+
+
+\subsection{Base de Dados e Armazenamento de Ficheiros}
+
+A disponibilidade dos dados é também um ponto crítico do sistema. Sem estes, o sistema torna-se praticamente inútil, uma vez que os utilizadores não têm acesso à informação que procuram.
+
+Com uma arquitetura simples deste serviço, apenas um servidor base de dados, é difícil garantir a alta disponibilidade e redundância de dados como também origina ponto de falha único, tornando este inacessível.
+O exemplo remete também para a questão de \textit{throughput}, que dada um súbito aumento de clientes reflete uma baixa de performance do serviço, provocando \textit{overflow} de pedidos.
+
+Com objetivo de solucionar este problema, foi proposto a utilização de um conjunto de bases de dados, gerido por um \textit{master} que sincroniza a informação com as restantes replicas de leitura.
+Este mecanismo oferece replicação de informação, escalabilidade e reduz a latência com o consumidor final (consultar \ref{data-base}).
+
+À semelhança do serviço base de dados, o serviço de armazenamento de ficheiros deparasse com os mesmos problemas.
+Face a este obstáculo propõem-se utilizar um mecanismo de copia de ficheiros entre servidores \textit{master} e \textit{readable}, com recurso a utensílios de sistemas de replicação dados é possível atingir a solução desejada.

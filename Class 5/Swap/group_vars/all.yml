@@ -1,0 +1,44 @@
+---
+#provisioning
+common_packages:
+  - vim-nox
+  - openntpd
+  - sudo
+common_shell: /bin/bash
+common_member_of: sudo
+common_services:
+  - sshd
+  - openntpd
+common_username: tester
+common_password: "{{ lookup('file', 'files/hashed_password') }}"
+common_local_public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+#DB settings
+db_packages:
+  - mysql-server
+  - python3-mysqldb
+
+# Swap database settings
+app_db_name: swap 
+app_db_user: teste
+app_db_password: 123456
+# This needs to match the internal IP of the GCP VM...
+app_db_ip: 10.128.0.17
+# This could be more secure if a concrete IP or range is given..
+app_user_ip: '%'
+
+app_packages:
+  - php7.4 
+  - php7.4-fpm
+  - php7.4-zip
+  - php7.4-mbstring
+  - php7.4-tokenizer
+  - php7.4-mysql
+  - php7.4-gd
+  - php7.4-xml
+  - php7.4-bcmath
+  - php7.4-intl
+  - php7.4-curl 
+  - nodejs
+  - composer
+  - npm

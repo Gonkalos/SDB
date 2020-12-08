@@ -1,0 +1,22 @@
+\subsection{Padrões de Distribuição}
+Esta aplicação pode assumir vários padrões de distribuição, dependendo da forma como é configurada.
+\par
+Como podemos observar pela Figura \ref{fig:architecture_with_protocol}, caso se opte por não usar um servidor \textit{proxy}, o cliente comunica diretamente com o servidor \textit{Mattermost} através dos protocolos de comunicação. Neste caso, a aplicação segue uma arquitetura \textit{client-server}.
+\par
+Caso contrário, podemos utilizar uma arquitetura \textit{proxy server}, em que os clientes comunicam com um servidor \textit{proxy} e este comunica com os diversos servidores \textit{Mattermost}. Neste caso, não há comunicação direta entre cliente e servidor.
+\par
+Na \textit{Enterprise Edition}, existe suporte a uma arquitetura de servidores \textit{Mattermost} em \textit{cluster}. Tal como demonstra a Figura \ref{fig:architecture_high_availability}, o servidor \textit{proxy} pode distribuir a carga para servidores \textit{Mattermost} que se encontrem com menos carga ou que se localizem mais perto do cliente.
+\par
+Há também o suporte a uma arquitetura de réplicas de leitura do servidor da base de dados. Na Figura \ref{fig:architecture_high_availability}, podemos ver o servidor da base dados \textit{master} e as várias réplicas. Desta forma a carga é distribuída e, espalhando as réplicas por diversos pontos geográficos, também conseguimos diminuir a latência das comunicações.
+\par
+Em geral, a escalabilidade do sistema segue uma arquitetura \textit{service oriented}, uma vez que escalonamos de forma separada os diversos tipos de entidades (\textit{i.e.} armazenamento, bases de dados e servidores).
+\par
+
+
+\subsection{Formas de Comunicação}
+A aplicação é compatível tanto com HTTPS (\textit{Secure HyperText Transfer Protocol}) como com WSS (\textit{Secure WebSocket}). No entanto, existem diferenças na utilização dos dois protocolos.
+\par
+Uma ligação HTTPS com o servidor fornece funcionalidades básicas e a capacidade de fazer \textit{render} de páginas. No entanto, não suporta a interatividade em \textit{real-time} disponibilizada pelo WSS. Caso não seja possível estabelecer uma ligação HTTPS, a aplicação não funcionará. Uma configuração HTTP pode ser utilizada para testes iniciais, mas não é aconselhada em produção.
+\par
+Uma ligação WSS com o servidor fornece atualizações e notificações em \textit{real-time}. Caso este tipo de ligação não esteja disponível, e o HTTPS esteja, o sistema continuará a funcionar sem as funcionalidades há pouco referidas, \textit{e.g.}, as páginas só serão atualizadas com um \textit{refresh} \cite{deployment_communication}.
+\par

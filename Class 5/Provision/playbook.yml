@@ -1,0 +1,71 @@
+- name: Provisioning Tasks
+
+  hosts: all
+
+  become: yes
+
+  vars:
+    packages:
+      - vim-nox
+      - openntpd
+      - sudo
+    username: tester
+    password: "{{ lookup('file', 'hashed_password') }}" # obtained with: ansible all -i localhost, -m debug -a "msg={{ '123456' | password_hash('sha512', 'mysecretsalt') }}"
+    shell: /bin/bash
+    member_of: sudo
+    local_public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    services:
+      - sshd
+      - openntpd
+
+  tasks:
+    - name: Update system packages
+      apt:
+        update_cache: yes
+        upgrade: no
+
+    - name: Install vim-nox, openntpd, and sudo
+      apt:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ packages }}"
+
+    - name: Create a user called tester with password 123456
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        shell: "{{ shell }}"
+
+    - name: Add tester to sudo group
+      user:
+        name: "{{ username }}"
+        groups: "{{ member_of }}"
+        append: yes
+
+    - name: Prepare the user tester for SSH public key authentication
+      authorized_key:
+        user: "{{ username }}"
+        key: "{{ local_public_key }}"
+
+    - name: Disable root and password authentication for OpenSSH
+      copy:
+        src: sshd_config
+        dest: /etc/ssh/sshd_config
+        mode: 0644
+        owner: root
+        group: root
+      notify:
+        restart sshd
+
+    - name: Make sure OpenNTPD and OpenSSH services are enabled and running
+      service:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop: "{{ services }}"
+
+  handlers:
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
