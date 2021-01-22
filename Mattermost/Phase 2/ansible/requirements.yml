@@ -1,6 +1,0 @@
-### check dependencies
-# ansible-galaxy collection install -r requirements.yml
-
-collections:
-- name: community.docker
-- name: community.general

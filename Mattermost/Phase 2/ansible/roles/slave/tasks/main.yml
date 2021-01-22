@@ -1,5 +1,0 @@
----
-
-- name: Prepare slave environment.
-  include_tasks:
-    file: setup.yml

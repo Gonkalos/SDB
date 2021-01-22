@@ -1,5 +1,0 @@
----
-
-- name: Prepare master environment.
-  include_tasks:
-    file: setup.yml
