@@ -1,4 +1,4 @@
-## Contributors
+## Collaborators
 
 Project developed in collaboration with:
 
