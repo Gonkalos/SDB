@@ -1,0 +1,49 @@
+---
+- name: Install Docker.
+  hosts: all
+  roles:
+    - docker
+  tags: 
+    - docker_install
+
+- name: Setup Elasticsearch.
+  hosts: metrics
+  roles:
+    - elasticsearch
+  tags: 
+    - elasticsearch_install
+
+- name: Setup Kibana.
+  hosts: metrics
+  roles:
+    - kibana
+  tags: 
+    - kibana_install
+
+- name: Setup Logstash.
+  hosts: metrics
+  roles:
+    - logstash
+  tags:
+    - logstash_install
+
+- name: Setup Database Master.
+  hosts: db-master
+  roles:
+    - master
+  tags: 
+    - master_install
+
+- name: Setup Database Slave.
+  hosts: db-slave
+  roles:
+    - slave
+  tags: 
+    - slave_install
+
+- name: Setup Mattermost.
+  hosts: app
+  roles:
+    - mattermost
+  tags: 
+    - mattermost_install
