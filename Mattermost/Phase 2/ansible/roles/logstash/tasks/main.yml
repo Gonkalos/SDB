@@ -1,0 +1,16 @@
+---
+
+- name: Copy logstash files.
+  copy:
+    src: elasticstack/logstash/
+    dest: elasticstack/logstash/
+
+- name: Start container.
+  community.docker.docker_compose:
+    project_src: elasticstack
+    build: yes
+    state: present
+    remove_orphans: yes
+    services: logstash
+  register: output
+  become: yes

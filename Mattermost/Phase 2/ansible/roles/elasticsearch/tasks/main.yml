@@ -1,0 +1,30 @@
+---
+- name: Change working directory.
+  shell: cd ~
+
+- name: Copy elasticsearch docker files.
+  copy:
+    src: elasticstack/elasticsearch
+    dest: elasticstack/
+
+- name: Copy docker-compose file.
+  copy:
+    src: elasticstack/docker-compose.yml
+    dest: elasticstack/
+
+- name: Change working directory.
+  shell: cd ~/elasticstack
+
+- name: Prepare environment.
+  shell: sysctl -w vm.max_map_count=262144
+  become: yes
+
+- name: Start container.
+  community.docker.docker_compose:
+    project_src: elasticstack
+    build: yes
+    state: present
+    remove_orphans: yes
+    services: elasticsearch
+  register: output
+  become: yes

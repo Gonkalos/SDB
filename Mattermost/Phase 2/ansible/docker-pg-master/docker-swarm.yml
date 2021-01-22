@@ -1,0 +1,16 @@
+version: "3"
+services:
+  pg_master:
+    build: ./master
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+      - PG_REP_USER=mmuser_rep
+      - PG_REP_PASSWORD=mmuser_password
+    network_mode: host
+
+volumes:
+  pg_data:
