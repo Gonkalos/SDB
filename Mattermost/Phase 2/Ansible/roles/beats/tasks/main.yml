@@ -9,7 +9,13 @@
   shell: chown root mattermost/beats/*/*.yml && chmod go-w mattermost/beats/*/*.yml
   become: yes
 
+
+# O "become" nesta tarefa não foi adicionado na versão enviada
+# porque nas máquinas em que foram feitos os testes, os utilizadores
+# estavam no grupo Docker, não sendo necessária a elevação de
+# privilégios.
 - name: Setup heartbeat indexes.
-  shell: cd ~/mattermost && \
+  shell: cd mattermost && \
          docker-compose run heartbeat setup && \
-         cd ~
+         cd ..
+  become: yes

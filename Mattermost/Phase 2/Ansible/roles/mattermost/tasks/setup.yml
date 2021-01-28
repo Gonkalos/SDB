@@ -21,15 +21,6 @@
     group: "2000"
   become: yes
 
-- name: Recursively change ownership of directory ./mattermost/db
-  file:
-    path: mattermost/db
-    state: directory
-    recurse: yes
-    owner: "2000"
-    group: "2000"
-  become: yes
-
 - name: Recursively change ownership of directory ./mattermost/web
   file:
     path: mattermost/web
@@ -46,13 +37,6 @@
     recurse: yes
     owner: "2000"
     group: "2000"
-  become: yes
-
-- name: Set sb bash script executable permissions
-  file:
-    path: ./mattermost/db/entrypoint.sh
-    state: file
-    mode: '0755'
   become: yes
 
 - name: Set app bash scripts executable permissions
